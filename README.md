@@ -1,13 +1,6 @@
 # ShareSDK
 分享SDK，包括微信、朋友圈，微博，QQ，QQ空间等渠道分享。
 
-# Gradle
-    
-    compile ('com.xyzlf.share:sharesdk:0.0.11') {
-    	exclude group: 'com.android.support', module: 'appcompat-v7'
-    }
-
-
 # 效果图
 <img src="share.png"/>
 
@@ -130,26 +123,3 @@ ShareEntity testBean = new ShareEntity("我是标题", "我是内容，描述内
 7、arvinljw/SocialHelper：<https://github.com/arvinljw/SocialHelper>
 
 8、网易考拉Android分享模块的重构与改进：<https://sq.163yun.com/blog/article/213746039384846336>
-
-# 关于我
-有任何使用问题，可以给我发邮件：
-
-Author：张利峰
-
-E-mail：519578280@qq.com
-
-# License
-
-    Copyright(c)2016 xyzlf Open Source Project
-    
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-    
-    http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
