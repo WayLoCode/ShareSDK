@@ -129,6 +129,8 @@ ShareEntity testBean = new ShareEntity("我是标题", "我是内容，描述内
 
 7、arvinljw/SocialHelper：<https://github.com/arvinljw/SocialHelper>
 
+8、网易考拉Android分享模块的重构与改进：<https://sq.163yun.com/blog/article/213746039384846336>
+
 # 关于我
 有任何使用问题，可以给我发邮件：
 
