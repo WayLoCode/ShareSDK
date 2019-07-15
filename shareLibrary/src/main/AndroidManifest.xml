@@ -4,13 +4,13 @@
 
     <application>
         <activity
-            android:name="com.xyzlf.share.library.ShareDialogActivity"
+            android:name="com.xyzlf.share.library.ui.ShareDialogActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:theme="@style/ShareDialogTheme" />
 
         <activity
-            android:name="com.xyzlf.share.library.ShareHandlerActivity"
+            android:name="com.xyzlf.share.library.ui.ShareHandlerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent">

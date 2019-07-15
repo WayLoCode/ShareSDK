@@ -1,4 +1,4 @@
-package com.xyzlf.share.library;
+package com.xyzlf.share.library.ui;
 
 import android.app.Activity;
 import android.content.Intent;

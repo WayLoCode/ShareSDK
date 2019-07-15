@@ -12,11 +12,11 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.xyzlf.share.library.R;
+import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.OnShareListener;
 import com.xyzlf.share.library.interfaces.ShareConstant;
 import com.xyzlf.share.library.util.ManifestUtil;
-import com.xyzlf.share.library.util.ShareUtil;
 import com.xyzlf.share.library.util.ToastUtil;
 
 import java.util.List;
@@ -107,7 +107,7 @@ public class ShareByQQ extends ShareBase {
                 qqIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 qqIntent.putExtra(Intent.EXTRA_TEXT, data.getContent());
 
-                if (ShareUtil.startActivity(context, qqIntent)) {
+                if (ShareHelper.startActivity(context, qqIntent)) {
                     if (null != listener) {
                         listener.onShare(ShareConstant.SHARE_CHANNEL_QQ, ShareConstant.SHARE_STATUS_COMPLETE);
                     }

@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.ShareConstant;
-import com.xyzlf.share.library.util.ShareUtil;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ShareEntity testBean = new ShareEntity("我是标题", "我是内容，描述内容。");
         testBean.setUrl("https://www.baidu.com"); //分享链接
         testBean.setImgUrl("https://www.baidu.com/img/bd_logo1.png");
-        ShareUtil.showShareDialog(this, testBean, ShareConstant.REQUEST_CODE);
+        ShareHelper.showShareDialog(this, testBean, ShareConstant.REQUEST_CODE);
     }
 
     @Override
@@ -70,19 +70,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.share_qq:
-                ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_QQ, testBean, ShareConstant.REQUEST_CODE);
+                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_QQ, testBean,
+                    ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_qzone:
-                ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_QZONE, testBean, ShareConstant.REQUEST_CODE);
+                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_QZONE, testBean, ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_weibo:
-                ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_SINA_WEIBO, testBean, ShareConstant.REQUEST_CODE);
+                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_SINA_WEIBO, testBean,
+                    ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_weixin:
-                ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND, testBean, ShareConstant.REQUEST_CODE);
+                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND, testBean, ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_wxcircle:
-                ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE, testBean, ShareConstant.REQUEST_CODE);
+                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE, testBean, ShareConstant.REQUEST_CODE);
                 break;
 
             //分享大图
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        testBean.setImgUrl(filePath);
 
         int channel = ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND | ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE | ShareConstant.SHARE_CHANNEL_SINA_WEIBO | ShareConstant.SHARE_CHANNEL_QQ;
-        ShareUtil.showShareDialog(this, channel, testBean, ShareConstant.REQUEST_CODE);
+        ShareHelper.showShareDialog(this, channel, testBean, ShareConstant.REQUEST_CODE);
     }
 
 }

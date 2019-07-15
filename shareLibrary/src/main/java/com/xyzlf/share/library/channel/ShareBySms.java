@@ -6,10 +6,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.xyzlf.share.library.R;
+import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.OnShareListener;
 import com.xyzlf.share.library.interfaces.ShareConstant;
-import com.xyzlf.share.library.util.ShareUtil;
 import com.xyzlf.share.library.util.ToastUtil;
 
 /**
@@ -40,7 +40,7 @@ public class ShareBySms extends ShareBase {
         //短信内容
         sendIntent.putExtra("sms_body", content);
         sendIntent.setType("vnd.android-dir/mms-sms");
-        if (ShareUtil.startActivity(context, sendIntent)) {
+        if (ShareHelper.startActivity(context, sendIntent)) {
             if (null != listener) {
                 listener.onShare(ShareConstant.SHARE_CHANNEL_SMS, ShareConstant.SHARE_STATUS_COMPLETE);
             }

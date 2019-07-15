@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.xyzlf.share.library.R;
+import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.OnShareListener;
 import com.xyzlf.share.library.interfaces.ShareConstant;
-import com.xyzlf.share.library.util.ShareUtil;
 import com.xyzlf.share.library.util.ToastUtil;
 
 /**
@@ -37,7 +37,7 @@ public class ShareBySystem extends ShareBase {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, content);
         shareIntent.setType("text/plain");
-        if(ShareUtil.startActivity(context, Intent.createChooser(
+        if (ShareHelper.startActivity(context, Intent.createChooser(
                 shareIntent, context.getString(R.string.share_to)))) {
             if (null != listener) {
                 listener.onShare(ShareConstant.SHARE_CHANNEL_SYSTEM, ShareConstant.SHARE_STATUS_COMPLETE);

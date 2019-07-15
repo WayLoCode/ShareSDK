@@ -1,4 +1,4 @@
-package com.xyzlf.share.library.util;
+package com.xyzlf.share.library;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -10,11 +10,11 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.xyzlf.share.library.R;
-import com.xyzlf.share.library.ShareDialogActivity;
-import com.xyzlf.share.library.ShareHandlerActivity;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.ShareConstant;
+import com.xyzlf.share.library.ui.ShareDialogActivity;
+import com.xyzlf.share.library.ui.ShareHandlerActivity;
+import com.xyzlf.share.library.util.ToastUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,7 +22,7 @@ import java.io.FileOutputStream;
 /**
  * Created by zhanglifeng on 15/6/4.
  */
-public class ShareUtil {
+public class ShareHelper {
 
     /**
      * 分享数据

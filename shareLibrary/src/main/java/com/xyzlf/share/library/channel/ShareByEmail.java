@@ -6,10 +6,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.xyzlf.share.library.R;
+import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.OnShareListener;
 import com.xyzlf.share.library.interfaces.ShareConstant;
-import com.xyzlf.share.library.util.ShareUtil;
 import com.xyzlf.share.library.util.ToastUtil;
 
 /**
@@ -36,7 +36,7 @@ public class ShareByEmail extends ShareBase {
         //邮件内容
         String contentt = data.getContent() + data.getUrl();
         email.putExtra(Intent.EXTRA_TEXT, contentt);
-        if (ShareUtil.startActivity(context, email)) {
+        if (ShareHelper.startActivity(context, email)) {
             if (null != listener) {
                 listener.onShare(ShareConstant.SHARE_CHANNEL_EMAIL, ShareConstant.SHARE_STATUS_COMPLETE);
             }

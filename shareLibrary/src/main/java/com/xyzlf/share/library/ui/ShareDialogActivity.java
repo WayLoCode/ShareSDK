@@ -1,4 +1,4 @@
-package com.xyzlf.share.library;
+package com.xyzlf.share.library.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,11 +15,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xyzlf.share.library.R;
+import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ChannelEntity;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.ShareConstant;
 import com.xyzlf.share.library.util.ChannelUtil;
-import com.xyzlf.share.library.util.ShareUtil;
 import com.xyzlf.share.library.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -195,49 +196,54 @@ public class ShareDialogActivity extends ShareBaseActivity implements AdapterVie
      * 分享QQ好友
      */
     protected void shareByQQ() {
-        ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_QQ, getShareData(ShareConstant.SHARE_CHANNEL_QQ), ShareConstant.REQUEST_CODE);
+        ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_QQ,
+            getShareData(ShareConstant.SHARE_CHANNEL_QQ), ShareConstant.REQUEST_CODE);
     }
     /**
      * 分享到QQ空间
      */
     protected void shareByQZone() {
-        ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_QZONE, getShareData(ShareConstant.SHARE_CHANNEL_QZONE), ShareConstant.REQUEST_CODE);
+        ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_QZONE,
+            getShareData(ShareConstant.SHARE_CHANNEL_QZONE), ShareConstant.REQUEST_CODE);
     }
     /**
      * 分享微信好友
      */
     protected void shareByWeixinFriend() {
-        ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND, getShareData(ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND), ShareConstant.REQUEST_CODE);
+        ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND,
+            getShareData(ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND), ShareConstant.REQUEST_CODE);
     }
     /**
      * share to weixin circle
      */
     protected void shareByWeixinCircle() {
-        ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE, getShareData(ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE), ShareConstant.REQUEST_CODE);
+        ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE,
+            getShareData(ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE), ShareConstant.REQUEST_CODE);
     }
     /**
      * share more
      */
     protected void shareBySystem() {
-        ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_SYSTEM, getShareData(ShareConstant.SHARE_CHANNEL_SYSTEM), ShareConstant.REQUEST_CODE);
+        ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_SYSTEM,
+            getShareData(ShareConstant.SHARE_CHANNEL_SYSTEM), ShareConstant.REQUEST_CODE);
     }
     /**
      * share sms
      */
     protected void shareBySms() {
-        ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_SMS, getShareData(ShareConstant.SHARE_CHANNEL_SMS), ShareConstant.REQUEST_CODE);
+        ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_SMS, getShareData(ShareConstant.SHARE_CHANNEL_SMS), ShareConstant.REQUEST_CODE);
     }
     /**
      * share email
      */
     protected void shareByEmail() {
-        ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_EMAIL, getShareData(ShareConstant.SHARE_CHANNEL_EMAIL), ShareConstant.REQUEST_CODE);
+        ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_EMAIL, getShareData(ShareConstant.SHARE_CHANNEL_EMAIL), ShareConstant.REQUEST_CODE);
     }
     /**
      * share weibo
      */
     protected void shareBySinaWeibo() {
-        ShareUtil.startShare(this, ShareConstant.SHARE_CHANNEL_SINA_WEIBO, getShareData(ShareConstant.SHARE_CHANNEL_SINA_WEIBO), ShareConstant.REQUEST_CODE);
+        ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_SINA_WEIBO, getShareData(ShareConstant.SHARE_CHANNEL_SINA_WEIBO), ShareConstant.REQUEST_CODE);
     }
 
     protected ShareEntity getShareData(int shareChannel) {

@@ -1,4 +1,4 @@
-package com.xyzlf.share.library;
+package com.xyzlf.share.library.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import com.xyzlf.share.library.channel.ShareByQQ;
 import com.xyzlf.share.library.channel.ShareByQZone;
 import com.xyzlf.share.library.channel.ShareBySms;
 import com.xyzlf.share.library.channel.ShareBySystem;
-import com.xyzlf.share.library.channel.ShareByWeibo2;
+import com.xyzlf.share.library.channel.ShareByWeibo;
 import com.xyzlf.share.library.channel.ShareByWeixin;
 import com.xyzlf.share.library.interfaces.OnShareListener;
 import com.xyzlf.share.library.interfaces.ShareConstant;
@@ -22,15 +22,12 @@ import com.xyzlf.share.library.interfaces.ShareConstant;
  *
  * 分发Activity，主要对分享功能进行分发
  */
-public class ShareHandlerActivity extends ShareBaseActivity implements /*IWeiboHandler.Response, WeiboAuthListener,*/ OnShareListener {
+public class ShareHandlerActivity extends ShareBaseActivity implements OnShareListener {
 
     protected ShareEntity data;
 
-    protected ShareByWeibo2 shareByWeibo;
     protected ShareByWeixin shareByWeixin;
     protected boolean isInit = true;
-
-//    protected boolean isWeiboAuthComplete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +38,13 @@ public class ShareHandlerActivity extends ShareBaseActivity implements /*IWeiboH
             //Fuzz问题处理
             object = getIntent().getParcelableExtra(ShareConstant.EXTRA_SHARE_DATA);
         } catch (Exception e) {}
-        if (null == object || !(object instanceof ShareEntity)) {
+        if (!(object instanceof ShareEntity)) {
             finish();
             return;
         }
         data = (ShareEntity) object;
 
         if (savedInstanceState == null) {
-
             if (null != shareByWeixin) {
                 shareByWeixin.unregisterWeixinReceiver();
                 shareByWeixin = null;
@@ -67,8 +63,7 @@ public class ShareHandlerActivity extends ShareBaseActivity implements /*IWeiboH
                     break;
 
                 case ShareConstant.SHARE_CHANNEL_SINA_WEIBO:
-                    shareByWeibo = new ShareByWeibo2(this);
-                    shareByWeibo.share(data, this);
+                    new ShareByWeibo(this).share(data, this);
                     break;
 
                 case ShareConstant.SHARE_CHANNEL_QQ:
@@ -95,10 +90,6 @@ public class ShareHandlerActivity extends ShareBaseActivity implements /*IWeiboH
                     finishWithResult(channel, ShareConstant.SHARE_STATUS_ERROR);
                     break;
             }
-        } else {
-//            if (null != shareByWeibo) {
-//                shareByWeibo.onNewIntent(getIntent(), this);
-//            }
         }
     }
 
@@ -115,20 +106,12 @@ public class ShareHandlerActivity extends ShareBaseActivity implements /*IWeiboH
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isInit /*&& !isWeiboAuthComplete*/) {
+        if (!isInit) {
             finishWithResult(channel, ShareConstant.SHARE_STATUS_ERROR);
         } else {
             isInit = false;
         }
     }
-
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//        if (null != shareByWeibo) {
-//            shareByWeibo.onNewIntent(intent, this);
-//        }
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -142,46 +125,6 @@ public class ShareHandlerActivity extends ShareBaseActivity implements /*IWeiboH
     public void onShare(int channel, int status) {
         finishWithResult(channel, status);
     }
-
-    /**
-     * weibo call back
-     */
-//    @Override
-//    public void onResponse(BaseResponse baseResp) {
-//        if (baseResp != null) {
-//            switch (baseResp.errCode) {
-//                case WBConstants.ErrorCode.ERR_OK:
-//                    onShare(ShareConstant.SHARE_CHANNEL_SINA_WEIBO, ShareConstant.SHARE_STATUS_COMPLETE);
-//                    ToastUtil.showToast(this, R.string.share_success, true);
-//                    break;
-//                case WBConstants.ErrorCode.ERR_CANCEL:
-//                    onShare(ShareConstant.SHARE_CHANNEL_SINA_WEIBO, ShareConstant.SHARE_STATUS_CANCEL);
-//                    ToastUtil.showToast(this, R.string.share_cancel, true);
-//                    break;
-//                case WBConstants.ErrorCode.ERR_FAIL:
-//                    onShare(ShareConstant.SHARE_CHANNEL_SINA_WEIBO, ShareConstant.SHARE_STATUS_FAILED);
-//                    ToastUtil.showToast(this, getString(R.string.share_failed) + "。Error Message: " + baseResp.errMsg, false);
-//                    break;
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void onComplete(Bundle bundle) {
-//        isWeiboAuthComplete = true;
-//        shareByWeibo = new ShareByWeibo(this, this);
-//        shareByWeibo.share(data, this);
-//    }
-//
-//    @Override
-//    public void onWeiboException(WeiboException e) {
-//        finishWithResult(channel, ShareConstant.SHARE_WEIBO_AUTH_CANCEL);
-//    }
-//
-//    @Override
-//    public void onCancel() {
-//        finishWithResult(channel, ShareConstant.SHARE_WEIBO_AUTH_ERROR);
-//    }
 
     @Override
     protected void onDestroy() {
