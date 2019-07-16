@@ -10,16 +10,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.xyzlf.share.library.R;
-import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ShareEntity;
+import com.xyzlf.share.library.interfaces.OnDownloadListener;
 import com.xyzlf.share.library.interfaces.OnShareListener;
-import com.xyzlf.share.library.interfaces.ShareConstant;
 import com.xyzlf.share.library.request.AbstractAsyncTask;
 import com.xyzlf.share.library.request.BitmapAsyncTask;
 import com.xyzlf.share.library.util.ChannelUtil;
+import com.xyzlf.share.library.util.ShareConstant;
+import com.xyzlf.share.library.util.ShareUtil;
 import com.xyzlf.share.library.util.ToastUtil;
 
 import java.util.List;
@@ -32,20 +34,19 @@ public class ShareByWeibo extends ShareBase {
     private ShareEntity data;
     private OnShareListener listener;
 
-    public ShareByWeibo(Context context) {
+    public ShareByWeibo(AppCompatActivity context) {
         super(context);
-        this.context = context.getApplicationContext();
     }
 
     @Override
     public void share(final ShareEntity data, OnShareListener listener) {
-        boolean isWeiboInstalled = ChannelUtil.isWeiboInstall(context);
+        boolean isWeiboInstalled = ChannelUtil.isWeiboInstall(mContext);
         boolean isWeiboLiteInstalled = false;
         if (!isWeiboInstalled) {
-            isWeiboLiteInstalled = ChannelUtil.isWeiboLiteInstall(context);
+            isWeiboLiteInstalled = ChannelUtil.isWeiboLiteInstall(mContext);
         }
         if (!isWeiboInstalled && !isWeiboLiteInstalled) {
-            ToastUtil.showToast(context, R.string.share_no_weibo_client, true);
+            ToastUtil.showToast(mContext, R.string.share_no_weibo_client, true);
             listener.onShare(ShareConstant.SHARE_CHANNEL_SINA_WEIBO, ShareConstant.SHARE_STATUS_FAILED);
             return;
         }
@@ -57,14 +58,14 @@ public class ShareByWeibo extends ShareBase {
         this.data = data;
         if (!TextUtils.isEmpty(data.getImgUrl())) {
             if (data.getImgUrl().startsWith("http")) {
-                new BitmapAsyncTask(data.getImgUrl(), new BitmapAsyncTask.OnBitmapListener() {
+                new BitmapAsyncTask(data.getImgUrl(), new OnDownloadListener<Bitmap>() {
                     @Override
                     public void onSuccess(final Bitmap bitmap) {
                         localSyncTask(bitmap);
                     }
 
                     @Override
-                    public void onException(Exception exception) {
+                    public void onFail(Exception exception) {
                         localSyncTask(null);
                     }
                 }).execute();
@@ -74,7 +75,8 @@ public class ShareByWeibo extends ShareBase {
         } else if (data.getDrawableId() != 0) {
             BitmapDrawable drawable = null;
             try {
-                drawable = (BitmapDrawable) ContextCompat.getDrawable(context, data.getDrawableId());
+                drawable = (BitmapDrawable) ContextCompat.getDrawable(mContext,
+                    data.getDrawableId());
             } catch (Exception ignored) {
             }
             if (null != drawable) {
@@ -93,9 +95,9 @@ public class ShareByWeibo extends ShareBase {
             protected String doLoadData() throws Exception {
                 String imgPath;
                 if (null != bitmap) {
-                    imgPath = ShareHelper.saveBitmapToSDCard(context, bitmap);
+                    imgPath = ShareUtil.INSTANCE.saveBitmapToSDCard(mContext, bitmap);
                 } else {
-                    imgPath = ShareHelper.saveBitmapToSDCard(context, getDefaultBitmap(context));
+                    imgPath = ShareUtil.INSTANCE.saveBitmapToSDCard(mContext, getDefaultBitmap(mContext));
                 }
                 weiboShare(imgPath);
                 return null;
@@ -127,7 +129,7 @@ public class ShareByWeibo extends ShareBase {
         }
         try {
             String pkgName = "";
-            PackageManager pm = context.getPackageManager();
+            PackageManager pm = mContext.getPackageManager();
             List<ResolveInfo> matches = pm.queryIntentActivities(weiboIntent, PackageManager.MATCH_DEFAULT_ONLY);
             ResolveInfo info = null;
             for (ResolveInfo each : matches) {
@@ -155,7 +157,7 @@ public class ShareByWeibo extends ShareBase {
                 if (!TextUtils.isEmpty(imgPath)) {
                     weiboIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(imgPath));
                 }
-                context.startActivity(weiboIntent);
+                mContext.startActivity(weiboIntent);
                 listener.onShare(ShareConstant.SHARE_CHANNEL_SINA_WEIBO, ShareConstant.SHARE_STATUS_COMPLETE);
             } else {
                 listener.onShare(ShareConstant.SHARE_CHANNEL_SINA_WEIBO, ShareConstant.SHARE_STATUS_FAILED);

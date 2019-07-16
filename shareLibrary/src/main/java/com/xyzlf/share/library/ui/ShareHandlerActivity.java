@@ -15,7 +15,7 @@ import com.xyzlf.share.library.channel.ShareBySystem;
 import com.xyzlf.share.library.channel.ShareByWeibo;
 import com.xyzlf.share.library.channel.ShareByWeixin;
 import com.xyzlf.share.library.interfaces.OnShareListener;
-import com.xyzlf.share.library.interfaces.ShareConstant;
+import com.xyzlf.share.library.util.ShareConstant;
 
 /**
  * Created by zhanglifeng on 16/06/20

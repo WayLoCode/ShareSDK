@@ -3,12 +3,12 @@ package com.xyzlf.share.library.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
-import com.xyzlf.share.library.interfaces.ShareConstant;
+import com.xyzlf.share.library.util.ShareConstant;
 
 
-public abstract class ShareBaseActivity extends FragmentActivity {
+public abstract class ShareBaseActivity extends AppCompatActivity {
 
     protected int channel;
 

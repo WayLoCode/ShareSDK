@@ -1,10 +1,10 @@
 package com.xyzlf.share.library.channel;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.tencent.connect.share.QQShare;
@@ -15,8 +15,8 @@ import com.xyzlf.share.library.R;
 import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.OnShareListener;
-import com.xyzlf.share.library.interfaces.ShareConstant;
 import com.xyzlf.share.library.util.ManifestUtil;
+import com.xyzlf.share.library.util.ShareConstant;
 import com.xyzlf.share.library.util.ToastUtil;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class ShareByQQ extends ShareBase {
 
     protected Tencent mTencent;
 
-    public ShareByQQ(Context context) {
+    public ShareByQQ(AppCompatActivity context) {
         super(context);
         mTencent = Tencent.createInstance(ManifestUtil.getTencentQQAppId(context.getApplicationContext()), context.getApplicationContext());
     }
@@ -38,7 +38,7 @@ public class ShareByQQ extends ShareBase {
         if (null == data) {
             return;
         }
-        if (context == null) {
+        if (mContext == null) {
             return;
         }
         IUiListener callBack = new IUiListener() {
@@ -47,7 +47,7 @@ public class ShareByQQ extends ShareBase {
                 if (null != listener) {
                     listener.onShare(ShareConstant.SHARE_CHANNEL_QQ, ShareConstant.SHARE_STATUS_COMPLETE);
                 }
-                ToastUtil.showToast(context, R.string.share_success, true);
+                ToastUtil.showToast(mContext, R.string.share_success, true);
             }
 
             @Override
@@ -56,7 +56,7 @@ public class ShareByQQ extends ShareBase {
                     listener.onShare(ShareConstant.SHARE_CHANNEL_QQ, ShareConstant.SHARE_STATUS_FAILED);
                 }
                 if (null != uiError) {
-                    ToastUtil.showToast(context, uiError.errorMessage, true);
+                    ToastUtil.showToast(mContext, uiError.errorMessage, true);
                 }
             }
 
@@ -65,7 +65,7 @@ public class ShareByQQ extends ShareBase {
                 if (null != listener) {
                     listener.onShare(ShareConstant.SHARE_CHANNEL_QQ, ShareConstant.SHARE_STATUS_CANCEL);
                 }
-                ToastUtil.showToast(context, R.string.share_cancel, true);
+                ToastUtil.showToast(mContext, R.string.share_cancel, true);
             }
         };
 
@@ -74,10 +74,10 @@ public class ShareByQQ extends ShareBase {
             params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, data.getImgUrl());
             params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
             params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE);
-            mTencent.shareToQQ((Activity) context, params, callBack);
+            mTencent.shareToQQ((Activity) mContext, params, callBack);
         } else {
             if (!TextUtils.isEmpty(data.getUrl()) && !TextUtils.isEmpty(data.getTitle())) {
-                if (!(context instanceof Activity)) {
+                if (!(mContext instanceof Activity)) {
                     return;
                 }
                 final Bundle params = new Bundle();
@@ -88,12 +88,13 @@ public class ShareByQQ extends ShareBase {
                 if (!TextUtils.isEmpty(data.getImgUrl())) {
                     params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, data.getImgUrl());
                 }
-                mTencent.shareToQQ((Activity) context, params, callBack);
+                mTencent.shareToQQ((Activity) mContext, params, callBack);
             } else {
                 String activityName = "";
                 Intent intentSend = new Intent(Intent.ACTION_SEND);
                 intentSend.setType("text/plain");
-                List<ResolveInfo> listActivity = context.getPackageManager().queryIntentActivities(intentSend, 0);
+                List<ResolveInfo> listActivity =
+                    mContext.getPackageManager().queryIntentActivities(intentSend, 0);
                 for (ResolveInfo resolveInfo : listActivity) {
                     if (TextUtils.equals(ShareConstant.QQ_PACKAGE_NAME, resolveInfo.activityInfo.packageName)) {
                         activityName = resolveInfo.activityInfo.name;
@@ -107,7 +108,7 @@ public class ShareByQQ extends ShareBase {
                 qqIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 qqIntent.putExtra(Intent.EXTRA_TEXT, data.getContent());
 
-                if (ShareHelper.startActivity(context, qqIntent)) {
+                if (ShareHelper.INSTANCE.startThirdActivity(mContext, qqIntent)) {
                     if (null != listener) {
                         listener.onShare(ShareConstant.SHARE_CHANNEL_QQ, ShareConstant.SHARE_STATUS_COMPLETE);
                     }

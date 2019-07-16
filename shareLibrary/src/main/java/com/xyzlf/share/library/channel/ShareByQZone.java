@@ -1,8 +1,8 @@
 package com.xyzlf.share.library.channel;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.tencent.connect.share.QzoneShare;
@@ -11,7 +11,7 @@ import com.tencent.tauth.UiError;
 import com.xyzlf.share.library.R;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.OnShareListener;
-import com.xyzlf.share.library.interfaces.ShareConstant;
+import com.xyzlf.share.library.util.ShareConstant;
 import com.xyzlf.share.library.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class ShareByQZone extends ShareByQQ {
 
-    public ShareByQZone(Context context) {
+    public ShareByQZone(AppCompatActivity context) {
         super(context);
     }
 
@@ -30,7 +30,7 @@ public class ShareByQZone extends ShareByQQ {
         if (null == data) {
             return;
         }
-        if (context == null || !(context instanceof Activity)) {
+        if (mContext == null) {
             return;
         }
         final Bundle params = new Bundle();
@@ -43,13 +43,13 @@ public class ShareByQZone extends ShareByQQ {
             arrayList.add(data.getImgUrl());
         }
         params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, arrayList);
-        mTencent.shareToQzone((Activity) context, params, new IUiListener() {
+        mTencent.shareToQzone((Activity) mContext, params, new IUiListener() {
             @Override
             public void onComplete(Object o) {
                 if (null != listener) {
                     listener.onShare(ShareConstant.SHARE_CHANNEL_QZONE, ShareConstant.SHARE_STATUS_COMPLETE);
                 }
-                ToastUtil.showToast(context, R.string.share_success, true);
+                ToastUtil.showToast(mContext, R.string.share_success, true);
             }
             @Override
             public void onError(UiError uiError) {
@@ -57,7 +57,7 @@ public class ShareByQZone extends ShareByQQ {
                     listener.onShare(ShareConstant.SHARE_CHANNEL_QZONE, ShareConstant.SHARE_STATUS_FAILED);
                 }
                 if (null != uiError) {
-                    ToastUtil.showToast(context, uiError.errorMessage, true);
+                    ToastUtil.showToast(mContext, uiError.errorMessage, true);
                 }
             }
             @Override
@@ -65,7 +65,7 @@ public class ShareByQZone extends ShareByQQ {
                 if (null != listener) {
                     listener.onShare(ShareConstant.SHARE_CHANNEL_QZONE, ShareConstant.SHARE_STATUS_CANCEL);
                 }
-                ToastUtil.showToast(context, R.string.share_cancel, true);
+                ToastUtil.showToast(mContext, R.string.share_cancel, true);
             }
         });
     }

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -21,10 +22,11 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.xyzlf.share.library.R;
 import com.xyzlf.share.library.bean.ShareEntity;
+import com.xyzlf.share.library.interfaces.OnDownloadListener;
 import com.xyzlf.share.library.interfaces.OnShareListener;
-import com.xyzlf.share.library.interfaces.ShareConstant;
 import com.xyzlf.share.library.request.BitmapAsyncTask;
 import com.xyzlf.share.library.util.ManifestUtil;
+import com.xyzlf.share.library.util.ShareConstant;
 import com.xyzlf.share.library.util.ToastUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -42,11 +44,11 @@ public class ShareByWeixin extends ShareBase {
 
     private WeixinShareReceiver receiver;
 
-    public ShareByWeixin(Context context, int channel) {
+    public ShareByWeixin(AppCompatActivity context, int channel) {
         super(context);
-        this.context = context.getApplicationContext();
         this.channel = channel;
-        api = WXAPIFactory.createWXAPI(context.getApplicationContext(), ManifestUtil.getWeixinKey(this.context));
+        api = WXAPIFactory.createWXAPI(context.getApplicationContext(),
+            ManifestUtil.getWeixinKey(this.mContext));
     }
 
     /**
@@ -56,15 +58,15 @@ public class ShareByWeixin extends ShareBase {
         receiver = new WeixinShareReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ShareConstant.ACTION_WEIXIN_CALLBACK);
-        context.registerReceiver(receiver, intentFilter);
+        mContext.registerReceiver(receiver, intentFilter);
     }
 
     /**
      * unregister
      */
     public void unregisterWeixinReceiver() {
-        if (null != context && null != receiver) {
-            context.unregisterReceiver(receiver);
+        if (null != mContext && null != receiver) {
+            mContext.unregisterReceiver(receiver);
         }
     }
 
@@ -87,7 +89,7 @@ public class ShareByWeixin extends ShareBase {
             if (!TextUtils.isEmpty(imgUrl)) {
                 // 网络图片
                 if (imgUrl.startsWith("http")) {
-                    new BitmapAsyncTask(imgUrl, new BitmapAsyncTask.OnBitmapListener() {
+                    new BitmapAsyncTask(imgUrl, new OnDownloadListener<Bitmap>() {
                         @Override
                         public void onSuccess(Bitmap bitmap) {
                             if (data.isShareBigImg()) {
@@ -98,7 +100,7 @@ public class ShareByWeixin extends ShareBase {
                         }
 
                         @Override
-                        public void onException(Exception exception) {
+                        public void onFail(Exception exception) {
                             send();
                         }
                     }).execute();
@@ -113,7 +115,7 @@ public class ShareByWeixin extends ShareBase {
             } else if (data.getDrawableId() != 0) {
                 BitmapDrawable drawable = null;
                 try {
-                    drawable = (BitmapDrawable) ContextCompat.getDrawable(context, data.getDrawableId());
+                    drawable = (BitmapDrawable) ContextCompat.getDrawable(mContext, data.getDrawableId());
                 } catch (Exception ignored) {
                 }
                 if (null != drawable) {
@@ -130,7 +132,7 @@ public class ShareByWeixin extends ShareBase {
             if (null != listener) {
                 listener.onShare(channel, ShareConstant.SHARE_STATUS_FAILED);
             }
-            ToastUtil.showToast(context, R.string.share_no_weixin_client, true);
+            ToastUtil.showToast(mContext, R.string.share_no_weixin_client, true);
         }
     }
 
@@ -143,7 +145,7 @@ public class ShareByWeixin extends ShareBase {
                 error.printStackTrace();
             }
         }
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.share_default);
+        return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.share_default);
     }
 
     private void send() {
@@ -177,7 +179,8 @@ public class ShareByWeixin extends ShareBase {
             if (null != bitmap) {
                 wxMediaMessage.setThumbImage(getWxShareBitmap(bitmap));
             } else {
-                Bitmap defautlBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.share_default);
+                Bitmap defautlBitmap = BitmapFactory.decodeResource(mContext.getResources(),
+                    R.drawable.share_default);
                 if (null != defautlBitmap) {
                     wxMediaMessage.setThumbImage(getWxShareBitmap(defautlBitmap));
                 }
@@ -218,7 +221,7 @@ public class ShareByWeixin extends ShareBase {
                     if (null != listener) {
                         listener.onShare(channel, ShareConstant.SHARE_STATUS_FAILED);
                     }
-                    // ToastUtil.showToast(context, R.string.share_failed, true);
+                    // ToastUtil.showToast(mContext, R.string.share_failed, true);
                 }
             }
         }
@@ -268,7 +271,7 @@ public class ShareByWeixin extends ShareBase {
             if (null != listener) {
                 listener.onShare(channel, ShareConstant.SHARE_STATUS_FAILED);
             }
-            ToastUtil.showToast(context, R.string.share_no_weixin_client, true);
+            ToastUtil.showToast(mContext, R.string.share_no_weixin_client, true);
         }
     }
 
