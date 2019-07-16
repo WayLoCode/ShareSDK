@@ -1,4 +1,4 @@
-package com.xyzlf.share.library.interfaces;
+package com.xyzlf.share.library.util;
 
 /**
  * Created by zhanglifeng on 16/06/20
@@ -11,7 +11,7 @@ public class ShareConstant {
      */
     public static final int SHARE_CHANNEL_WEIXIN_FRIEND = 1; //微信好友
     /**
-     * weixin circle
+     * 微信朋友圈
      */
     public static final int SHARE_CHANNEL_WEIXIN_CIRCLE = 1 << 1;
     /**
@@ -69,6 +69,7 @@ public class ShareConstant {
 
     public static final String WEIXIN_PACKAGE_NAME = "com.tencent.mm"; // 微信包名
     public static final String QQ_PACKAGE_NAME = "com.tencent.mobileqq"; // QQ包名
+    public static final String QQ_ZONE_PACKAGE_NAME = "com.qzone"; // QQ空间包名
     public static final String SINA_WEIBO_PACKAGE_NAME = "com.sina.weibo"; // 新浪微博
     public static final String SINA_WEIBO_LITE_PACKAGE_NAME = "com.sina.weibolite";
 

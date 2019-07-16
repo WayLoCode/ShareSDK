@@ -1,5 +1,7 @@
 package com.xyzlf.share.library.interfaces;
 
+import com.xyzlf.share.library.util.ShareConstant;
+
 /**
  * Created by zhanglifeng
  */

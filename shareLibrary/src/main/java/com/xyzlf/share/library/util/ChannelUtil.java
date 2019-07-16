@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import com.xyzlf.share.library.interfaces.ShareConstant;
-
 /**
  * Created by zhanglifeng on 2016/6/17
  */

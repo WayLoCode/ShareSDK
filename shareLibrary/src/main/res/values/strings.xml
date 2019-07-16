@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">ShareLibrary</string>
 
-    <string name="share_to">分享到</string>
+    <string name="share_to">分享至</string>
+    <string name="share_poster_to">分享海报至</string>
 
     <string name="share_empty_tip">分享內容不能为空</string>
     <string name="share_channel_none">没有该分享渠道</string>
@@ -26,6 +27,9 @@
     <string name="share_channel_weibo">微博</string>
     <string name="share_channel_qq">QQ</string>
     <string name="share_channel_qzone">QQ空间</string>
+    <string name="share_channel_save">保存到相册</string>
+    <string name="share_channel_poster">海报</string>
+    <string name="share_channel_copy_link">复制链接</string>
     <string name="share_channel_more">更多</string>
 
 
