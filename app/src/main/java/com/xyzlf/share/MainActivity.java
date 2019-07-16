@@ -7,7 +7,10 @@ import android.view.View;
 
 import com.xyzlf.share.library.ShareHelper;
 import com.xyzlf.share.library.bean.ShareEntity;
-import com.xyzlf.share.library.interfaces.ShareConstant;
+import com.xyzlf.share.library.util.ShareConstant;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,7 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.share_qzone).setOnClickListener(this);
         findViewById(R.id.share_weibo).setOnClickListener(this);
         findViewById(R.id.share_weixin).setOnClickListener(this);
-
+        findViewById(R.id.share_image).setOnClickListener(this);
+        findViewById(R.id.share_link).setOnClickListener(this);
+        findViewById(R.id.share_poster).setOnClickListener(this);
         findViewById(R.id.share_bigimage).setOnClickListener(this);
 
     }
@@ -38,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ShareEntity testBean = new ShareEntity("我是标题", "我是内容，描述内容。");
         testBean.setUrl("https://www.baidu.com"); //分享链接
         testBean.setImgUrl("https://www.baidu.com/img/bd_logo1.png");
-        ShareHelper.showShareDialog(this, testBean, ShareConstant.REQUEST_CODE);
+        ShareHelper.INSTANCE.showShareDialog(this, testBean, ShareConstant.REQUEST_CODE);
     }
 
     @Override
@@ -70,26 +75,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.share_qq:
-                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_QQ, testBean,
+                ShareHelper.INSTANCE.startShare(this, ShareConstant.SHARE_CHANNEL_QQ, testBean,
                     ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_qzone:
-                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_QZONE, testBean, ShareConstant.REQUEST_CODE);
+                ShareHelper.INSTANCE.startShare(this, ShareConstant.SHARE_CHANNEL_QZONE, testBean
+                    , ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_weibo:
-                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_SINA_WEIBO, testBean,
+                ShareHelper.INSTANCE.startShare(this, ShareConstant.SHARE_CHANNEL_SINA_WEIBO, testBean,
                     ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_weixin:
-                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND, testBean, ShareConstant.REQUEST_CODE);
+                ShareHelper.INSTANCE.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND,
+                    testBean, ShareConstant.REQUEST_CODE);
                 break;
             case R.id.share_wxcircle:
-                ShareHelper.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE, testBean, ShareConstant.REQUEST_CODE);
+                ShareHelper.INSTANCE.startShare(this, ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE, testBean, ShareConstant.REQUEST_CODE);
                 break;
-
             //分享大图
             case R.id.share_bigimage:
                 shareBigImg();
+                break;
+            case R.id.share_image:
+                shareWxQqImage();
+                break;
+            case R.id.share_link:
+                shareWxQqLink();
+                break;
+            case R.id.share_poster:
+                shareWxQqPoster();
                 break;
         }
     }
@@ -112,8 +127,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        String filePath = ShareUtil.saveBitmapToSDCard(this, bitmap);
 //        testBean.setImgUrl(filePath);
 
-        int channel = ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND | ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE | ShareConstant.SHARE_CHANNEL_SINA_WEIBO | ShareConstant.SHARE_CHANNEL_QQ;
-        ShareHelper.showShareDialog(this, channel, testBean, ShareConstant.REQUEST_CODE);
+        int channel =
+            ShareConstant.SHARE_CHANNEL_WEIXIN_FRIEND | ShareConstant.SHARE_CHANNEL_WEIXIN_CIRCLE
+            | ShareConstant.SHARE_CHANNEL_SINA_WEIBO | ShareConstant.SHARE_CHANNEL_QQ;
+        ShareHelper.INSTANCE.showShareDialog(this, channel, testBean, ShareConstant.REQUEST_CODE);
     }
 
+    public void shareWxQqImage() {
+        ShareEntity testBean = new ShareEntity("标题", "分享正文");
+        testBean.setShareBigImg(true);
+        List<String> list = new ArrayList<>();
+        list.add("https://www.baidu.com/img/bd_logo1.png");
+        testBean.setImgUrls(list);
+        testBean.setImgUrl("https://www.baidu.com/img/bd_logo1.png");
+        ShareHelper.INSTANCE.showShareWxQqImageDialog(this, testBean);
+    }
+
+    public void shareWxQqLink() {
+        ShareEntity testBean = new ShareEntity("标题", "分享正文");
+        testBean.setShareBigImg(true);
+        List<String> list = new ArrayList<>();
+        list.add("https://www.baidu.com/img/bd_logo1.png");
+        testBean.setImgUrls(list);
+        testBean.setImgUrl("https://www.baidu.com/img/bd_logo1.png");
+        ShareHelper.INSTANCE.showShareWxQqLinkDialog(this, testBean);
+    }
+
+    public void shareWxQqPoster() {
+        ShareEntity testBean = new ShareEntity("标题", "分享正文");
+        testBean.setShareBigImg(true);
+        List<String> list = new ArrayList<>();
+        list.add("https://www.baidu.com/img/bd_logo1.png");
+        testBean.setImgUrls(list);
+        testBean.setImgUrl("https://www.baidu.com/img/bd_logo1.png");
+        ShareHelper.INSTANCE.showShareWxQqPosterDialog(this, testBean);
+    }
 }

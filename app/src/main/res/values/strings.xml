@@ -8,7 +8,9 @@
     <string name="share_wxcircle">调用朋友圈分享</string>
     <string name="share_weibo">调用微博分享</string>
     <string name="share_qzone">调用QZone分享</string>
-
     <string name="share_bigimage">分享大图</string>
+    <string name="share_image">分享图片</string>
+    <string name="share_link">分享链接</string>
+    <string name="share_poster">分享海报</string>
 
 </resources>

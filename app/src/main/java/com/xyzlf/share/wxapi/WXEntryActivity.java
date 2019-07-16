@@ -9,9 +9,8 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.xyzlf.share.MainActivity;
-import com.xyzlf.share.library.interfaces.ShareConstant;
 import com.xyzlf.share.library.util.ManifestUtil;
+import com.xyzlf.share.library.util.ShareConstant;
 
 /**
  * 这个类是微信回调的类

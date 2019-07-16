@@ -47,4 +47,21 @@
         android:layout_height="wrap_content"
         android:text="@string/share_bigimage" />
 
+    <Button
+        android:id="@+id/share_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share_image" />
+
+    <Button
+        android:id="@+id/share_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share_link" />
+
+    <Button
+        android:id="@+id/share_poster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share_poster" />
 </LinearLayout>

@@ -1,7 +1,7 @@
 package com.xyzlf.share;
 
 
-import com.xyzlf.share.library.interfaces.ShareConstant;
+import com.xyzlf.share.library.util.ShareConstant;
 
 /**
  * Created by zhanglifeng on 2016/6/22
