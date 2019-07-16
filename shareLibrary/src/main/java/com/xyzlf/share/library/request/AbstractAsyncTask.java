@@ -2,12 +2,15 @@ package com.xyzlf.share.library.request;
 
 import android.os.AsyncTask;
 
+import com.xyzlf.share.library.interfaces.OnDownloadListener;
+
 /**
  * Created by zhanglifeng on 16/6/17
  */
 public abstract class AbstractAsyncTask<T> extends AsyncTask<Void, Integer, T> {
     private Exception exception;
     private T data;
+    protected OnDownloadListener<T> listener;
 
     @Override
     protected T doInBackground(Void... voids) {
@@ -37,7 +40,7 @@ public abstract class AbstractAsyncTask<T> extends AsyncTask<Void, Integer, T> {
             if (exception == null) {
                 onSuccess(t);
             } else {
-                onException(exception);
+                onFail(exception);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,12 +51,18 @@ public abstract class AbstractAsyncTask<T> extends AsyncTask<Void, Integer, T> {
     }
 
     public void onSuccess(T t) {
+        if (null != listener) {
+            listener.onSuccess(t);
+        }
+    }
+
+    public void onFail(Exception exception) {
+        if (null != listener) {
+            listener.onFail(exception);
+        }
     }
 
     public void onFinally() {
     }
 
-    public void onException(Exception exception) {
-
-    }
 }

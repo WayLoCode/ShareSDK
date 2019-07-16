@@ -3,6 +3,8 @@ package com.xyzlf.share.library.request;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.xyzlf.share.library.interfaces.OnDownloadListener;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,16 +16,14 @@ import java.net.URL;
 public class BitmapAsyncTask extends AbstractAsyncTask<Bitmap> {
 
     private String urlStr;
-    private OnBitmapListener listener;
 
-    public BitmapAsyncTask(String urlStr, OnBitmapListener listener) {
+    public BitmapAsyncTask(String urlStr, OnDownloadListener<Bitmap> listener) {
         this.urlStr = urlStr;
         this.listener = listener;
     }
 
     @Override
     protected Bitmap doLoadData() throws Exception {
-
         URL url = new URL(urlStr);
         InputStream is = url.openStream();
         // 将InputStream变为Bitmap
@@ -48,9 +48,10 @@ public class BitmapAsyncTask extends AbstractAsyncTask<Bitmap> {
         return BitmapFactory.decodeStream(stream, null, options);
     }
 
-    static void calculateInSampleSize(int reqWidth, int reqHeight, BitmapFactory.Options options, boolean centerInside) {
+    static void calculateInSampleSize(int reqWidth, int reqHeight, BitmapFactory.Options options,
+                                      boolean centerInside) {
         calculateInSampleSize(reqWidth, reqHeight, options.outWidth, options.outHeight, options,
-                centerInside);
+            centerInside);
     }
 
     static void calculateInSampleSize(int reqWidth, int reqHeight, int width, int height,
@@ -67,41 +68,12 @@ public class BitmapAsyncTask extends AbstractAsyncTask<Bitmap> {
                 heightRatio = (int) Math.floor((float) height / (float) reqHeight);
                 widthRatio = (int) Math.floor((float) width / (float) reqWidth);
                 sampleSize = centerInside
-                        ? Math.max(heightRatio, widthRatio)
-                        : Math.min(heightRatio, widthRatio);
+                    ? Math.max(heightRatio, widthRatio)
+                    : Math.min(heightRatio, widthRatio);
             }
         }
         options.inSampleSize = sampleSize;
         options.inJustDecodeBounds = false;
-    }
-
-    @Override
-    public void onSuccess(Bitmap bitmap) {
-        super.onSuccess(bitmap);
-        if (null != listener) {
-            listener.onSuccess(bitmap);
-        }
-    }
-
-    @Override
-    public void onException(Exception exception) {
-        super.onException(exception);
-        if (null != listener) {
-            listener.onException(exception);
-        }
-    }
-
-    @Override
-    public void onFinally() {
-        super.onFinally();
-    }
-
-
-    public interface OnBitmapListener {
-
-        void onSuccess(Bitmap bitmap);
-
-        void onException(Exception exception);
     }
 
 }
